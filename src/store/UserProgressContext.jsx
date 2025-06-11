@@ -31,7 +31,7 @@ export function UserProgressContextProvider({ children }) {
 		showCart,
 		hideCart,
 		showCheckout,
-		hideCart,
+		hideCheckout,
 	};
 	return (
 		<UserProgressContext value={userProgressCtx}>
