@@ -1,6 +1,5 @@
-import { useContext } from 'react';
+import { useActionState, useContext } from 'react';
 
-import { useActionState } from 'react';
 import useHttp from '../hooks/useHttp.js';
 import CartContext from '../store/CartContext.jsx';
 import UserProgressContext from '../store/UserProgressContext.jsx';
@@ -16,6 +15,7 @@ const requestConfig = {
 		'Content-Type': 'application/json',
 	},
 };
+
 export default function Checkout() {
 	const cartCtx = useContext(CartContext);
 	const userProgressCtx = useContext(UserProgressContext);
@@ -24,6 +24,7 @@ export default function Checkout() {
 		'http://localhost:3000/orders',
 		requestConfig
 	);
+
 	const cartTotal = cartCtx.items.reduce(
 		(totalPrice, item) => totalPrice + item.quantity * item.price,
 		0
@@ -31,10 +32,6 @@ export default function Checkout() {
 
 	function handleClose() {
 		userProgressCtx.hideCheckout();
-	}
-
-	function handleClose() {
-		userProgressCtx.hideCheckout;
 	}
 
 	function handleFinish() {
@@ -73,11 +70,12 @@ export default function Checkout() {
 	if (isSending) {
 		actions = <span>Sending order data...</span>;
 	}
+
 	if (data && !error) {
 		return (
 			<Modal
 				open={userProgressCtx.progress === 'checkout'}
-				onClose={formAction}
+				onClose={handleFinish}
 			>
 				<h2>Success!</h2>
 				<p>Your order was submitted successfully.</p>
@@ -86,7 +84,7 @@ export default function Checkout() {
 					few minutes.
 				</p>
 				<p className='modal-actions'>
-					<Button onClick={handleFinish}>Okey</Button>
+					<Button onClick={handleFinish}>Okay</Button>
 				</p>
 			</Modal>
 		);
@@ -94,7 +92,7 @@ export default function Checkout() {
 
 	return (
 		<Modal open={userProgressCtx.progress === 'checkout'} onClose={handleClose}>
-			<form action={checkoutAction}>
+			<form action={formAction}>
 				<h2>Checkout</h2>
 				<p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
 
